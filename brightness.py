@@ -1,26 +1,27 @@
 from math import log10
-
+import pickle
 import subprocess
 import sys
 
-def get_brightness():
-    return int(subprocess.run(['xbacklight', '-get'], capture_output=True, text=True, check=True).stdout)
+def get_measured():
+    return int(subprocess.run(['xbacklight', '-get'], capture_output=True, text=True).stdout)
+def get_perceived():
+    with open('/home/alex/Brightness/perceived_brightness', 'rb') as fi:
+        return pickle.load(fi)
 
-def set_brightness(backlight):
-    subprocess.run(['xbacklight', '-set', str(backlight)])
+def set_brightness(perceived):
+    with open('/home/alex/Brightness/perceived_brightness', 'wb') as fi:
+        pickle.dump(perceived, fi)
+    subprocess.run(['xbacklight', '-set', str(perceived_to_measured(perceived))])
 
-def signal_to_level(signal):
-    return int(10**((signal / 100) * 2 - 2) * 100)
+def perceived_to_measured(perceived):
+    if perceived == 0: return 0
+    else: return int(10**((perceived / 100) * 2 - 2) * 100)
 
-def level_to_signal(level):
-    return int((log10(level / 100) + 2) / 2 * 100)
+def measured_to_perceived(measured):
+    return int((log10(measured / 100) + 2) / 2 * 100)
 
-if (sys.argv[1] == "-inc"): 
-    if (signal_to_level(level_to_signal(get_brightness()) + 1) == get_brightness()):
-        set_brightness(signal_to_level(level_to_signal(get_brightness()) + 5) + 1)
-    set_brightness(signal_to_level(level_to_signal(get_brightness()) + 5))
-elif (sys.argv[1] == "-dec"): 
-    if (signal_to_level(level_to_signal(get_brightness()) - 1) == get_brightness()):
-        set_brightness(signal_to_level(level_to_signal(get_brightness()) + 5) - 1)
-    set_brightness(signal_to_level(level_to_signal(get_brightness()) - 5))
-elif (sys.argv[1] == "-get"): print(level_to_signal(get_brightness()))
+if (len(sys.argv) == 2):
+    if (sys.argv[1] == "-inc" and get_perceived() < 100): set_brightness(get_perceived() + 5)
+    elif (sys.argv[1] == "-dec" and get_perceived() > 0): set_brightness(get_perceived() - 5)
+    elif (sys.argv[1] == "-get"): print(get_perceived())
