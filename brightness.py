@@ -1,3 +1,5 @@
+#!/bin/python
+
 import math
 import pickle
 import subprocess
@@ -22,7 +24,9 @@ def perceived_to_measured(perceived):
 def measured_to_perceived(measured):
     return round((math.log10(measured / 100) + 2) / 2 * 100)
 
-if (len(sys.argv) == 2):
+if (len(sys.argv) != 2):
+    print("usage: brightness.py [-get] [-inc] [-dec]\nbrightness.py: error: one of the arguments -get -inc -dec is required")
+else:
     if (sys.argv[1] == "-inc" and get_perceived() < 100): set_brightness(get_perceived() + 5)
     elif (sys.argv[1] == "-dec" and get_perceived() > 0): set_brightness(get_perceived() - 5)
     elif (sys.argv[1] == "-get"): print(get_perceived())
