@@ -9,5 +9,6 @@ $y =$ perceived brightness
 
 $$y = {\frac{\log_{10} (\frac{x}{100}) + 2}{2} \times 100}$$
 
-## Resources
+## Other Helpful Resources
 - [@konradstrack](https://github.com/konradstrack)'s [blog](https://konradstrack.ninja/blog/changing-screen-brightness-in-accordance-with-human-perception/)
+- [@ericmurphyxyz](https://github.com/ericmurphyxyz)'s [video](https://youtu.be/pGOaSS8nEQA?si=UsH7o5s1bvsRl6RI)
