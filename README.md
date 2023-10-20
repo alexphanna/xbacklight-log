@@ -3,11 +3,7 @@ According to the [Weber-Fechner law](https://en.wikipedia.org/wiki/Weber%E2%80%9
 
 ## Math
 
-$x =$ measured  brightness
-
-$y =$ perceived brightness
-
-$$y = {\frac{\log_{10} (\frac{x}{100}) + 2}{2} \times 100}$$
+$$\hat{\text{perceived brightness}} = {\frac{\log_{10}(\text{measured brightness}) + 2}{2}}$$
 
 ## Other Helpful Resources
 - [@konradstrack](https://github.com/konradstrack)'s [blog](https://konradstrack.ninja/blog/changing-screen-brightness-in-accordance-with-human-perception/)
